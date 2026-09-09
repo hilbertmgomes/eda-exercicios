@@ -41,7 +41,7 @@ public class ListaClassroom {
 		return null;
 	}
 	
-	//Questão 4: 
+	//Questão 4: Complexidade Linear
 	public static boolean ehPrimo(int n) {
 		int fat = 2;
 		
@@ -54,5 +54,17 @@ public class ListaClassroom {
 		}
 		
 		return true;
+	}
+	
+	//Questão 5: Complexidade Quadrática
+	public static boolean temRepetido(int[] v) {
+		for (int i = 0; i < v.length; i++) {
+			for (int j = i+1; j < v.length; j++) {
+				if (v[i] == v[j]) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }
