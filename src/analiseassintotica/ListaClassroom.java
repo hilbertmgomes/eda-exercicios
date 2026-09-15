@@ -67,4 +67,48 @@ public class ListaClassroom {
 		}
 		return false;
 	}
+	
+	//Encontra Primeiro Negativo: Complexidade Linear
+	public static int primeiroNegativo(int[] v, int inicio) {
+		if (inicio >= v.length) return -1;
+		if (v[inicio]< 0) return v[inicio];
+		
+		return primeiroNegativo(v, inicio+1);
+	}
+	
+	//Busca Linear Recursiva: Complexidade Linear
+	public static int buscaLinearRecursiva(int[] v, int alvo, int inicio) {
+		if (inicio >= v.length) return -1;
+		if (v[inicio] == alvo) return inicio;
+		
+		return buscaLinearRecursiva(v, alvo, inicio+1);
+	}
+	
+	//Potencia Recursiva: Complexidade Linear
+	public static int potencia(int base, int exp, int reps) {
+		if (reps >= exp) return 1;
+		
+		return base * potencia(base, exp, reps+1);
+	}
+	
+	//Fibonacci: Complexidade Exponencial
+	public static int fibonacci(int n) {
+		if (n == 0) return 0;
+		if (n == 1) return 1;
+		
+		return fibonacci(n-1) + fibonacci(n-2);
+	}
+	
+	//Busca Binaria: Complexidade Logarítmica
+	public static int buscaBinaria(int[] v, int comeco, int fim, int alvo) {
+		if (comeco > fim) return -1;
+		int meio = (comeco + fim) / 2;
+		if (v[meio] == alvo) return meio;
+		
+		if (v[meio] > alvo) {
+			return buscaBinaria(v, comeco, meio-1, alvo);
+		}
+		
+		return buscaBinaria(v, meio+1, fim, alvo);	
+	}
 }

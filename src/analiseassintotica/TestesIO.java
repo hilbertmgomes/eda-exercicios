@@ -1,38 +1,29 @@
 package analiseassintotica;
 
+import java.util.Arrays;
 import java.util.Scanner;
-import java.util.HashSet;
 
 class TestesIO {
 	
-	public static boolean temRepetido(String[] v) {
-		for (int i = 0; i < v.length; i++) {
-			for (int j = i+1; j < v.length; j++) {
-				if (v[i].equals(v[j])) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-	public static boolean temRepetidoHashSet(String[] v) {
-		HashSet<String> vals = new HashSet<>();
+	public static int buscaBinaria(int[] v, int comeco, int fim, int alvo) {
+		if (comeco > fim) return -1;
+		int meio = (comeco + fim) / 2;
+		if (v[meio] == alvo) return meio;
 		
-		for (String val : v) {
-			if (vals.contains(val)) {
-				return true;
-			}
-			vals.add(val);
+		System.out.println(meio);
+		if (v[meio] > alvo) {
+			return buscaBinaria(v, comeco, meio-1, alvo);
 		}
-		return false;
+		
+		return buscaBinaria(v, meio+1, fim, alvo);	
 	}
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		String[] input = sc.nextLine().split(" ");
+		int[] v = Arrays.stream(sc.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+		int alvo = sc.nextInt();
 		
-		System.out.println(temRepetidoHashSet(input));
+		System.out.println(buscaBinaria(v, 0, v.length-1, alvo));
 		
 		sc.close();
 	}
