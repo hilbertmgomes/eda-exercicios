@@ -5,25 +5,35 @@ import java.util.Scanner;
 
 class TestesIO {
 	
-	public static int buscaBinaria(int[] v, int comeco, int fim, int alvo) {
-		if (comeco > fim) return -1;
-		int meio = (comeco + fim) / 2;
-		if (v[meio] == alvo) return meio;
-		
-		System.out.println(meio);
-		if (v[meio] > alvo) {
-			return buscaBinaria(v, comeco, meio-1, alvo);
+	//Insertion Sort Recursivo: Complexidade Quadrática
+	public static void insereOrdenado(String[] v, int i) {
+		int j = i;
+		String aux = "";
+			
+		while (j >= 1 && v[j].compareTo(v[j-1]) < 0) {
+			if (v[j].compareTo(v[j-1]) < 0){
+				aux = v[j];
+				v[j] = v[j-1];
+				v[j-1] = aux;
+			}
+				
+			j--;
 		}
+	}
 		
-		return buscaBinaria(v, meio+1, fim, alvo);	
+		
+	public static void insertionSortRecursivo(String[] v, int i) {
+		if (i >= v.length) return;
+		insereOrdenado(v, i);
+		System.out.println(Arrays.toString(v).replace("]", "").replace("[", ""));
+		insertionSortRecursivo(v, i+1);
 	}
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		int[] v = Arrays.stream(sc.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-		int alvo = sc.nextInt();
+		String[] v = sc.nextLine().split(",");
 		
-		System.out.println(buscaBinaria(v, 0, v.length-1, alvo));
+		insertionSortRecursivo(v, 0);
 		
 		sc.close();
 	}

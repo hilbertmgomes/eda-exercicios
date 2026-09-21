@@ -1,4 +1,7 @@
 package analiseassintotica;
+import static java.lang.Math.*;
+
+import java.util.Arrays;
 
 public class ListaClassroom {
 	
@@ -110,5 +113,134 @@ public class ListaClassroom {
 		}
 		
 		return buscaBinaria(v, meio+1, fim, alvo);	
+	}
+	
+	//Encontra "quebra" recursivo: Complexidade Linear
+	public static int encontraQuebra(int[] v, int i) {
+		if (i >= v.length - 1) return -1;
+		if (v[i] > v[i+1]) return i+1;
+			
+		return encontraQuebra(v, i+1);
+	}
+	
+	//Teorema Mestre: Complexidade Linear
+	public static int logaritmo(int expoente, int base) {
+		return (int) (Math.log(expoente) / Math.log(base));
+	}
+	
+	
+	public static String teoremaMestre(int[] vs) {
+		int ln = logaritmo(vs[0], vs[1]);
+		
+		if (ln > vs[2]) {
+			return ("T(n) = theta(n**" + ln);
+		}else {
+			if(ln < vs[2]) {
+				return ("T(n) = theta(n**" + vs[2]);
+			}
+		}
+		
+		return ("T(n) = theta(n**" + vs[2] + " * log n");
+	}
+	
+	//Insere Ultimo: Complexidade Linear
+	public static void insereUltimo(int[] v) {
+		int j = v.length-1;
+		int aux = 0;
+		
+		while (j >= 1 && v[j] < v[j-1]) {
+			if (v[j] < v[j-1]){
+				aux = v[j];
+				v[j] = v[j-1];
+				v[j-1] = aux;
+			}
+			
+			j--;
+		}
+		
+	}
+	
+	
+	//Insere Primeiro: Complexidade Linear
+	public static void inserePrimeiro(int[] v) {
+		int j = 0;
+		int aux = 0;
+		
+		while (j < v.length-1 && v[j] > v[j+1]) {
+			if (v[j] > v[j+1]){
+				aux = v[j];
+				v[j] = v[j+1];
+				v[j+1] = aux;
+			}
+			
+			j++;
+		}
+	}
+	
+	//Insertion Sort Recursivo: Complexidade Quadrática
+	public static void insereOrdenado(int[] v, int i) {
+		int j = i;
+		int aux = 0;
+		
+		while (j >= 1 && v[j] < v[j-1]) {
+			if (v[j] < v[j-1]){
+				aux = v[j];
+				v[j] = v[j-1];
+				v[j-1] = aux;
+			}
+			
+			j--;
+		}
+	}
+	
+	
+	public static void insertionSortRecursivo(int[] v, int i) {
+		if (i >= v.length) return;
+		insereOrdenado(v, i);
+		insertionSortRecursivo(v, i+1);
+	}
+	
+	//Selection Sort Passo a Passo: Complexidade Quadrática
+	public static void selectionSortPassoAPasso(int[] v) {
+		int menor = 0;
+		int aux = 0;
+		
+		for (int i = 0; i < v.length; i++) {
+			menor = i;
+			
+			for (int j = i + 1; j < v.length; j++) {
+				if (v[j] < v[menor]) {
+					menor = j;
+				}
+			}
+			
+			aux = v[i];
+			v[i] = v[menor];
+			v[menor] = aux;
+			
+			
+		}
+	}
+	
+	//Selection Sort Recursivo: Complexidade Quadrática
+	public static void selecionaMenor(int[] v, int val) {
+		int menor = val;
+		int aux = 0;
+		
+		for (int j = val + 1; j < v.length; j++) {
+			if (v[j] < v[menor]) {
+				menor = j;
+			}
+		}
+		
+		aux = v[val];
+		v[val] = v[menor];
+		v[menor] = aux;
+	}
+	
+	public static void selectionSortRecursivo(int[] v, int val) {
+		if (val >= v.length) return;
+		selecionaMenor(v, val);
+		selectionSortRecursivo(v, val+1);
 	}
 }
