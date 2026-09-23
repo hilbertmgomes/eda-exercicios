@@ -5,35 +5,51 @@ import java.util.Scanner;
 
 class TestesIO {
 	
-	//Insertion Sort Recursivo: Complexidade Quadrática
-	public static void insereOrdenado(String[] v, int i) {
-		int j = i;
-		String aux = "";
+	//Selection Sort Otimizado: Complexidade Quadrática
+	public static void selectionSortOtimizado(int[] v) {
+		int maior = 0;
+		int menor = 0;
+		int aux = 0;
+		int i_rev = v.length-1;
+		
+		for (int i = 0; i < v.length / 2; i++) {
+			maior = i_rev;
+			menor = i;
 			
-		while (j >= 1 && v[j].compareTo(v[j-1]) < 0) {
-			if (v[j].compareTo(v[j-1]) < 0){
-				aux = v[j];
-				v[j] = v[j-1];
-				v[j-1] = aux;
+			for (int j = i; j <= i_rev; j++) {
+				if (v[j] > v[maior]) {
+					maior = j;
+				} 
+				
+				if (v[j] < v[menor]) {
+					menor = j;
+				}
+			}
+			
+			aux = v[i];
+			v[i] = v[menor];
+			v[menor] = aux;
+			
+			if (i == maior) {
+				maior = menor;
 			}
 				
-			j--;
+			aux = v[i_rev];
+			v[i_rev] = v[maior];
+			v[maior] = aux;
+
+			
+			i_rev--;
+			
 		}
-	}
-		
-		
-	public static void insertionSortRecursivo(String[] v, int i) {
-		if (i >= v.length) return;
-		insereOrdenado(v, i);
-		System.out.println(Arrays.toString(v).replace("]", "").replace("[", ""));
-		insertionSortRecursivo(v, i+1);
 	}
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		String[] v = sc.nextLine().split(",");
+		int[] v = Arrays.stream(sc.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
 		
-		insertionSortRecursivo(v, 0);
+		selectionSortOtimizado(v);
+		System.out.println(Arrays.toString(v));
 		
 		sc.close();
 	}
