@@ -14,7 +14,6 @@ class TestesIO {
 		if (vals[1] == v[ini]) return ini;
 		else if (vals[1] == v[meio]) return meio;
 		return fim;
-		
 	}
 	
 	public static int particionar(int[] v, int ini, int fim) {
@@ -55,6 +54,7 @@ class TestesIO {
 			quickSort(v, pivo+1, fim);
 		}
 	}
+
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
