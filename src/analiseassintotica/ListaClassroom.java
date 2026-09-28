@@ -243,4 +243,142 @@ public class ListaClassroom {
 		selecionaMenor(v, val);
 		selectionSortRecursivo(v, val+1);
 	}
+	
+	//Passo Merge: Complexidade Linear
+	public static int[] merge(int[] a, int[] b) {
+			
+			
+		int i = 0;
+		int j = 0;
+		int k = 0;
+			
+		int[] out = new int[a.length + b.length];
+			
+		while (i <= a.length-1 && j <= b.length-1) {
+	
+				
+			if (a[i] <= b[j]) {
+				out[k] = a[i];
+				i++;
+			}else {
+				out[k] = b[j];
+				j++;
+			}
+				
+			k++;
+		}
+			
+		while (i <= a.length-1) {
+			out[k] = a[i];
+			i++;
+			k++;
+		}
+			
+		while (j <= b.length-1) {
+			out[k] = b[j];
+			j++;
+			k++;
+		}
+			
+		return out;
+	}
+	
+	
+	//Merge Sort: Complexidade n*log(n)
+	public static void merge(int[] v, int left, int right) {
+		int[] helper = new int[right - left + 1];
+		
+		for (int i = 0; i < right - left + 1; i++) {
+			helper[i] = v[left+i];
+		}
+		
+		int middle = (right - left) / 2;
+		
+		int i = 0;
+		int j = middle + 1;
+		int k = left;
+	
+		
+		while (i <= middle && j <= helper.length - 1) {
+			
+			if (helper[i] <= helper[j]) {
+				v[k] = helper[i];
+				i++;
+			}else {
+				v[k] = helper[j];
+				j++;
+			}
+			k++;
+		}
+		
+		while (i <= middle) {
+			v[k] = helper[i];
+			i++;
+			k++;	
+		}
+		
+	}
+	
+	public static void mergeSort(int[] v, int ini, int fim) {
+		if (ini < fim) {
+			int meio = (ini + fim) / 2;
+			mergeSort(v, ini, meio);
+			mergeSort(v, meio+1, fim);
+			merge(v, ini, fim);
+		}
+		
+	}
+
+	
+	//Quick Sort: Complexidade n*log(n). Contorna o pior caso de particionar o array em partes de tamanho 0 e n-1 respectivamente, que será de complexidade quadrática.
+	public static int escolherPivo(int[] v, int ini, int fim) {
+		int meio = (ini + fim) / 2;
+		int[] vals = new int[] {v[ini], v[meio], v[fim]};
+		
+		Arrays.sort(vals);
+		
+		if (vals[1] == v[ini]) return ini;
+		else if (vals[1] == v[meio]) return meio;
+		return fim;
+		
+	}
+	
+	public static int particionar(int[] v, int ini, int fim) {
+		int pivo = escolherPivo(v, ini, fim);
+		
+		int i = ini;
+		int j = fim;
+		int aux = 0;
+		
+		while (i <= j) {
+			while (i <= j && v[i] <= v[pivo]) {
+				i++;
+			}
+			
+			while (i <= j && v[j] > v[pivo]) {
+				j--;
+			}
+			
+			if (i < j) {
+				aux = v[i];
+				v[i] = v[j];
+				v[j] = aux;
+			}
+		}
+		
+		aux = v[j];
+		v[j] = v[pivo];
+		v[pivo] = aux;
+		
+		return pivo;
+		
+	}
+	
+	public static void quickSort(int[] v, int ini, int fim) {
+		if (ini < fim) {
+			int pivo = particionar(v, ini, fim);
+			quickSort(v, ini, pivo);
+			quickSort(v, pivo+1, fim);
+		}
+	}
 }
