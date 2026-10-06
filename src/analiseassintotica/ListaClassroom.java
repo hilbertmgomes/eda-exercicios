@@ -412,6 +412,8 @@ public class ListaClassroom {
 		}
 	}
 	
+	//Counting Sort: Complexidade O(n + k)
+
 	public static int menor(int[] v) {
 		int menor = 0;
 		
@@ -420,21 +422,77 @@ public class ListaClassroom {
 				menor = i;
 			}	
 		}
-		return menor;
+		return v[menor];
 	}
 	
-	//Counting Sort: Complexidade O(n + k)
+	public static int maior(int[] v) {
+		int maior = 0;
+		
+		for (int i = 0; i < v.length; i++) {
+			if (v[i] > v[maior]) {
+				maior = i;
+			}
+			
+		}
+		
+		return maior;
+		
+	}
+	
 	public static void countingSort(int[] v, int k) {
 		int menor = menor(v);
 		int[] aux = new int[(k - menor) + 1];
 		
 		for (int i = 0; i < v.length; i++) {
-			aux[i - menor]++;
+			aux[v[i] - menor]++;
 		}
 		
-		for (int i = 1; i < v.length; i++) {
+		for (int i = 1; i < aux.length; i++) {
 			aux[i] = aux[i] + aux[i-1];
 		}
 		
+		int[] out = new int[v.length];
+		
+		for (int i = v.length-1; i >= 0; i--) {
+			out[aux[v[i] - menor] - 1] = v[i];
+			aux[v[i] - menor]--;
+		}
+		
+		for (int i = 0; i < v.length; i++) {
+			v[i] = out[i];
+		}
 	}
+	
+	//Radix Sort: Complexidade O(d * n)
+	public static void radixSort(int[] v, int digitos) {
+		for (int d = 1; d <= digitos; d++) {
+			countingRadixSort(v, d);
+		}
+	}
+			
+	public static void countingRadixSort(int[] v, int exp) {
+		int[] aux = new int[19];
+		int fat1 = (int) Math.pow(10, exp);
+		int fat2 = (int) Math.pow(10, exp-1);
+				
+		for (int i = 0; i < v.length; i++) {
+			aux[(((v[i] % fat1) - (v[i] % fat2)) / fat2) + 9]++;
+		}
+				
+		for (int i = 1; i < aux.length; i++) {
+			aux[i] = aux[i] + aux[i-1];
+		}
+			
+		int[] out = new int[v.length];
+				
+		for (int i = v.length-1; i >= 0; i--) {
+			out[aux[(((v[i] % fat1) - (v[i] % fat2)) / fat2) + 9] - 1] = v[i];
+			aux[(((v[i] % fat1) - (v[i] % fat2)) / fat2) + 9]--;		
+		}
+			
+		for (int i = 0; i < v.length; i++) {
+			v[i] = out[i];
+		}
+	}
+
 }

@@ -5,61 +5,45 @@ import java.util.Scanner;
 
 class TestesIO {
 	
-	public static int escolherPivo(int[] v, int ini, int fim) {
-		int meio = (ini + fim) / 2;
-		int[] vals = new int[] {v[ini], v[meio], v[fim]};
-		
-		Arrays.sort(vals);
-		
-		if (vals[1] == v[ini]) return ini;
-		else if (vals[1] == v[meio]) return meio;
-		return fim;
-	}
-	
-	public static int particionar(int[] v, int ini, int fim) {
-		int pivo = escolherPivo(v, ini, fim);
-		
-		int i = ini;
-		int j = fim;
-		int aux = 0;
-		
-		while (i <= j) {
-			while (i <= j && v[i] <= v[pivo]) {
-				i++;
-			}
-			
-			while (i <= j && v[j] > v[pivo]) {
-				j--;
-			}
-			
-			if (i < j) {
-				aux = v[i];
-				v[i] = v[j];
-				v[j] = aux;
-			}
-		}
-		
-		aux = v[j];
-		v[j] = v[pivo];
-		v[pivo] = aux;
-		
-		return pivo;
-		
-	}
-	
-	public static void quickSort(int[] v, int ini, int fim) {
-		if (ini < fim) {
-			int pivo = particionar(v, ini, fim);
-			quickSort(v, ini, pivo);
-			quickSort(v, pivo+1, fim);
+	//Radix Sort: Complexidade O(d * n)
+	public static void radixSort(int[] v, int digitos) {
+		for (int d = 1; d <= digitos; d++) {
+			countingRadixSort(v, d);
 		}
 	}
+		
+		
+	public static void countingRadixSort(int[] v, int exp) {
+		int[] aux = new int[19];
+		int fat1 = (int) Math.pow(10, exp);
+		int fat2 = (int) Math.pow(10, exp-1);
+			
+		for (int i = 0; i < v.length; i++) {
+			aux[(((v[i] % fat1) - (v[i] % fat2)) / fat2) + 9]++;
+		}
+			
+		for (int i = 1; i < aux.length; i++) {
+			aux[i] = aux[i] + aux[i-1];
+		}
+		
+		int[] out = new int[v.length];
+			
+		for (int i = v.length-1; i >= 0; i--) {
+			out[aux[(((v[i] % fat1) - (v[i] % fat2)) / fat2) + 9] - 1] = v[i];
+			aux[(((v[i] % fat1) - (v[i] % fat2)) / fat2) + 9]--;		
+		}
+		
+		for (int i = 0; i < v.length; i++) {
+			v[i] = out[i];
+		}
+	}
+		
 
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int[] v1 = Arrays.stream(sc.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-		quickSort(v1, 0, v1.length-1);
+		radixSort(v1, 4);
 		System.out.println(Arrays.toString(v1));
 		
 		sc.close();
