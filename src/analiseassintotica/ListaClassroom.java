@@ -411,4 +411,30 @@ public class ListaClassroom {
 			i_rev--;
 		}
 	}
+	
+	public static int menor(int[] v) {
+		int menor = 0;
+		
+		for (int i = 0; i < v.length; i++) {
+			if (v[i] < v[menor]) {
+				menor = i;
+			}	
+		}
+		return menor;
+	}
+	
+	//Counting Sort: Complexidade O(n + k)
+	public static void countingSort(int[] v, int k) {
+		int menor = menor(v);
+		int[] aux = new int[(k - menor) + 1];
+		
+		for (int i = 0; i < v.length; i++) {
+			aux[i - menor]++;
+		}
+		
+		for (int i = 1; i < v.length; i++) {
+			aux[i] = aux[i] + aux[i-1];
+		}
+		
+	}
 }
