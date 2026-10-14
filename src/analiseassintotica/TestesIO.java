@@ -5,46 +5,65 @@ import java.util.Scanner;
 
 class TestesIO {
 	
-	//Radix Sort: Complexidade O(d * n)
-	public static void radixSort(int[] v, int digitos) {
-		for (int d = 1; d <= digitos; d++) {
-			countingRadixSort(v, d);
+	//Merge Sort: Complexidade n*log(n)
+	public static void merge(int[] v, int ini, int fim) {
+		int[] helper = new int[fim - ini + 1];
+			
+		for (int i = 0; i < fim - ini + 1; i++) {
+			helper[i] = v[ini+i];
 		}
+		System.out.println(Arrays.toString(helper));
+		
+		int meio = (fim - ini) / 2;
+			
+		int i = 0;
+		int j = meio + 1;
+		int k = ini;
+		
+		while (i <= meio && j <= helper.length - 1) {
+				
+			if (helper[i] <= helper[j]) {
+				v[k] = helper[i];
+				i++;
+			}else {
+				v[k] = helper[j];
+				j++;
+			}
+			k++;
+		}
+			
+		while (i <= meio) {
+			v[k] = helper[i];
+			i++;
+			k++;	
+		}
+			
 	}
-		
-		
-	public static void countingRadixSort(int[] v, int exp) {
-		int[] aux = new int[19];
-		int fat1 = (int) Math.pow(10, exp);
-		int fat2 = (int) Math.pow(10, exp-1);
-			
-		for (int i = 0; i < v.length; i++) {
-			aux[(((v[i] % fat1) - (v[i] % fat2)) / fat2) + 9]++;
+	
+	public static void mergeSort(int[] v, int ini, int fim) {
+		if (ini >= fim) {
+			return;
 		}
 			
-		for (int i = 1; i < aux.length; i++) {
-			aux[i] = aux[i] + aux[i-1];
-		}
-		
-		int[] out = new int[v.length];
+		int[] helper = new int[fim - ini + 1];
 			
-		for (int i = v.length-1; i >= 0; i--) {
-			out[aux[(((v[i] % fat1) - (v[i] % fat2)) / fat2) + 9] - 1] = v[i];
-			aux[(((v[i] % fat1) - (v[i] % fat2)) / fat2) + 9]--;		
+		for (int i = 0; i < fim - ini + 1; i++) {
+			helper[i] = v[ini+i];
 		}
-		
-		for (int i = 0; i < v.length; i++) {
-			v[i] = out[i];
-		}
+			
+		System.out.println(Arrays.toString(helper));
+			
+		int meio = (ini + fim) / 2;
+		mergeSort(v, ini, meio);
+		mergeSort(v, meio+1, fim);
+		merge(v, ini, fim);
 	}
-		
-
+	
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int[] v1 = Arrays.stream(sc.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-		radixSort(v1, 4);
-		System.out.println(Arrays.toString(v1));
+		mergeSort(v1, 0, v1.length-1);
 		
 		sc.close();
 	}

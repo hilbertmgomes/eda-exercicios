@@ -494,5 +494,29 @@ public class ListaClassroom {
 			v[i] = out[i];
 		}
 	}
+	
+	//Particionamento Lomuto: O(n)
+	public static void partionamentoLomuto(int[] v) {
+		
+		int pivo = 0;
+		int i = 0;
+		int j = i + 1;
+		int aux = 0;
+		
+		while (j < v.length) {
+			if (v[j] < v[pivo]) {
+				i++;
+				aux = v[i];
+				v[i] = v[j];
+				v[j] = aux;
+			}
+			
+			j++;	
+		}
+		
+		aux = v[i];
+		v[i] = v[pivo];
+		v[pivo] = aux;
+	}
 
 }
