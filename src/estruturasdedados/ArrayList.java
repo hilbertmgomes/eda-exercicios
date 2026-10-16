@@ -21,6 +21,10 @@ public class ArrayList {
         return this.tail == -1;
     }
     
+    public int getTail() {
+    	return this.tail;
+    }
+    
     public void addFirst(int valor) {
     	assegureCapacidade(tail + 1);
     	
@@ -33,14 +37,13 @@ public class ArrayList {
     public void addLast(int valor) {
         assegureCapacidade(tail + 1);
         
-        System.out.println(Arrays.toString(this.list));
-        
         this.tail++;
         this.list[tail] = valor;
     }
 
     // adiciona um valor no índice passado como parâmetro
     public void add(int index, int valor) {
+    	if (index < 0 || index > tail + 1) throw new IndexOutOfBoundsException("Indice " + index + " invalido para tamanho " + this.tail);
         assegureCapacidade(tail + 1);
         
       	this.tail++;
